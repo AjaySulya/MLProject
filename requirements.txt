@@ -2,4 +2,7 @@ pandas
 numpy
 matplotlib
 seaborn
--e .  # editable install for local development # connect to setup.py
+scikit-learn
+xgboost
+catboost
+#-e .  # editable install for local development # connect to setup.py

@@ -1,4 +1,6 @@
 import sys
+from src.logger import logging
+
 def error_message_detail(error,error_detail:sys):
     """
     This function takes an error and its details, formats them into a string,
