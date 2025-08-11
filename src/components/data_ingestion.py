@@ -8,9 +8,12 @@ from src.logger import logging
 from sklearn.model_selection import train_test_split
 
 from dataclasses import dataclass # this will use to create a class variable 
+## this is for checking everything working fine or not 
+from src.components.data_transformation import DataTransformation
+from src.components.data_transformation import DataTransformationConfig
+# this for testing purpose 
 
-
-@dataclass
+@dataclass # provides consise way to define classes which are primarily used to store and manage data , It significantly reduces boilerplate code by automatically generating methods like __init__,__repr__, and __eq__ based on the class attributes.
 class DataIngestionConfig:
     # these are the inputs which are giving to data ingestion component,
     # data ingestion components know where to save the train path and test path because of this file path
@@ -58,8 +61,12 @@ class DataIngestion:
         ##### sys is bridge between the python code and the runtime environment , it provides the information about the exception that occurred in the code 
 
 
-
+# this is for testing purpose
 if __name__=="__main__":
+    # here we first ingest data and then transform them right. 
     obj = DataIngestion()
-    obj.initiate_data_ingestion() # this will call the initiate_data_ingestion method and execute the code inside it 
-            
+    train_data , test_data = obj.initiate_data_ingestion() # this will call the initiate_data_ingestion method and execute the code inside it 
+    data_transformation = DataTransformation() # here i making the instance of DataTransformation class 
+    # by reference this object i call the initialize data transformation method 
+    data_transformation.initiate_data_transformation(train_data,test_data)  # and data transformation method take two parameteres one is train_data , and test_data by using those data is initialize the data transformation
+           

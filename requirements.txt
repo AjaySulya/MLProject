@@ -5,4 +5,5 @@ seaborn
 scikit-learn
 xgboost
 catboost
+dill
 #-e .  # editable install for local development # connect to setup.py
