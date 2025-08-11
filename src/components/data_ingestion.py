@@ -13,6 +13,11 @@ from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
 # this for testing purpose 
 
+
+# for the model Trainer 
+from src.components.model_trainer import ModelTrainerConfig
+from src.components.model_trainer import ModelTrainer
+
 @dataclass # provides consise way to define classes which are primarily used to store and manage data , It significantly reduces boilerplate code by automatically generating methods like __init__,__repr__, and __eq__ based on the class attributes.
 class DataIngestionConfig:
     # these are the inputs which are giving to data ingestion component,
@@ -69,4 +74,10 @@ if __name__=="__main__":
     data_transformation = DataTransformation() # here i making the instance of DataTransformation class 
     # by reference this object i call the initialize data transformation method 
     data_transformation.initiate_data_transformation(train_data,test_data)  # and data transformation method take two parameteres one is train_data , and test_data by using those data is initialize the data transformation
-           
+
+    # for model training 
+    train_arr,test_arr,_ = data_transformation.initiate_data_transformation(train_data,test_data)
+    
+    modeltrainer = ModelTrainer()
+    print(modeltrainer.initiate_model_trainer(train_arr,test_arr))
+    
