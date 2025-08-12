@@ -7,4 +7,5 @@ xgboost
 catboost
 dill
 ipykernel
+flask
 #-e .  # editable install for local development # connect to setup.py
