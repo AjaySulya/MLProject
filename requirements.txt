@@ -6,4 +6,5 @@ scikit-learn
 xgboost
 catboost
 dill
+ipykernel
 #-e .  # editable install for local development # connect to setup.py
