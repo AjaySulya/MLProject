@@ -252,7 +252,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Made with ❤️ for educational data science**
 
-[⭐ Star this repo](https://img.shields.io/github/stars/ajaysulya/studentmarkspredictor?style=social) | [🐛 Report Bug](https://img.shields.io/github/issues-pr/ajaysulya/studentmarkspredictor) | [💡 Request Feature](https://img.shields.io/github/issues-pr/ajaysulya/studentmarkspredictor)
+[⭐ Star this repo](https://github.com/AjaySulya/studentmarkspredictor) | [🐛 Report Bug](https://github.com/AjaySulya/studentmarkspredictor/issues) | [💡 Request Feature](https://github.com/AjaySulya/studentmarkspredictor/pulls)
 
 </div>
 
@@ -260,9 +260,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### 📊 Quick Stats
 
-![GitHub stars](https://img.shields.io/github/stars/ajaysulya/studentmarkspredictor?style=social)
-![GitHub forks](https://img.shields.io/github/forks/ajaysulya/studentmarkspredictor?style=social)
-![GitHub issues](https://img.shields.io/github/issues/ajaysulya/studentmarkspredictor)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/ajaysulya/studentmarkspredictor)
+![GitHub stars](https://github.com/AjaySulya/studentmarkspredictor)
+![GitHub forks](https://github.com/AjaySulya/studentmarkspredictor)
+![GitHub issues](https://github.com/AjaySulya/studentmarkspredictor/issues)
+![GitHub pull requests](https://github.com/AjaySulya/studentmarkspredictor/pulls)
 
 *Last updated: [13-Aug-2025]*
