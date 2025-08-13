@@ -260,8 +260,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### 📊 Quick Stats
 
-![GitHub stars](https://github.com/AjaySulya/studentmarkspredictor)
-![GitHub forks](https://github.com/AjaySulya/studentmarkspredictor)
+![GitHub stars](https://github.com/AjaySulya/studentmarkspredictor?style=social)
+![GitHub forks](https://github.com/AjaySulya/studentmarkspredictor?style=social)
 ![GitHub issues](https://github.com/AjaySulya/studentmarkspredictor/issues)
 ![GitHub pull requests](https://github.com/AjaySulya/studentmarkspredictor/pulls)
 
