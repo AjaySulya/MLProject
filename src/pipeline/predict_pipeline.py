@@ -15,6 +15,9 @@ class PredictPipeline:
         try:
             model_path = 'artifacts\\model.pkl'
             preprocessor_path = 'artifacts\\preprocessor.pkl'
+            
+            model_path = os.path.normpath(model_path) # clean path for linux
+            preprocessor_path = os.path.normpath(preprocessor_path) # same 
             # load the data for predictions 
             model = load_object(file_path = model_path)
             preprocessor = load_object(file_path = preprocessor_path)
