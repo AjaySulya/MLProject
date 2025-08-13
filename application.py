@@ -3,7 +3,8 @@ from flask import Flask, request,render_template
 # basic libraries 
 import numpy as np
 import pandas as pd
-
+# for the render deployment
+import traceback
 # for the scalling the features
 # from sklearn.preprocessing import StandardScaler
 # for the mapping the data and doing the predictions
@@ -46,6 +47,13 @@ def predict_datapoint():
         
         return render_template('home.html',results = results[0])
     
+    
+     # for the render error logs 
+@app.errorhandler(Exception)
+def handle_error(e):
+    print("ERROR:", e)
+    traceback.print_exc()  # prints full error to Render logs
+    return jsonify({"error": str(e)}), 500   
 # for testing purpose 
 if __name__=="__main__":
     app.run(host="0.0.0.0")    
