@@ -16,11 +16,11 @@ class PredictPipeline:
             model_path = 'artifacts\\model.pkl'
             preprocessor_path = 'artifacts\\preprocessor.pkl'
             
-            model_path = os.path.normpath(model_path) # clean path for linux
-            preprocessor_path = os.path.normpath(preprocessor_path) # same 
+            model_path_linux = os.path.normpath(model_path) # clean path for linux
+            preprocessor_path_linux = os.path.normpath(preprocessor_path) # same 
             # load the data for predictions 
-            model = load_object(file_path = model_path)
-            preprocessor = load_object(file_path = preprocessor_path)
+            model = load_object(file_path = model_path_linux)
+            preprocessor = load_object(file_path = preprocessor_path_linux)
             # scaled the input features 
             
             # if there is not model and preprocessor then do this by default 
