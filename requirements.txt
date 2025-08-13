@@ -8,4 +8,6 @@ catboost
 dill
 ipykernel
 flask
+# for deployment on render
+gunicorn
 #-e .  # editable install for local development # connect to setup.py
