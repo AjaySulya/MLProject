@@ -1,1 +1,159 @@
-<h1> Welcome to Home Page </h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Exam Performance Indicator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">Student Exam Performance Indicator</h1>
+            <p class="subtitle">Predict your mathematics score based on various factors</p>
+        </div>
+        
+        <div class="form-container">
+            <form id="predictionForm" action="{{ url_for('predict_datapoint')}}" method="post">
+                <h2 class="form-title">Student Information</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Gender</label>
+                        <select class="form-control" name="gender" id="gender" required>
+                            <option class="placeholder" selected disabled value="">Select your Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                        <span class="error-message" id="gender-error"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Race or Ethnicity</label>
+                        <select class="form-control" name="ethnicity" id="ethnicity" required>
+                            <option class="placeholder" selected disabled value="">Select Ethnicity</option>
+                            <option value="group A">Group A</option>
+                            <option value="group B">Group B</option>
+                            <option value="group C">Group C</option>
+                            <option value="group D">Group D</option>
+                            <option value="group E">Group E</option>
+                        </select>
+                        <span class="error-message" id="ethnicity-error"></span>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Parental Level of Education</label>
+                        <select class="form-control" name="parental_level_of_education" id="parental_education" required>
+                            <option class="placeholder" selected disabled value="">Select Parent Education</option>
+                            <option value="some high school">Some High School</option>
+                            <option value="high school">High School</option>
+                            <option value="some college">Some College</option>
+                            <option value="associate's degree">Associate's Degree</option>
+                            <option value="bachelor's degree">Bachelor's Degree</option>
+                            <option value="master's degree">Master's Degree</option>
+                        </select>
+                        <span class="error-message" id="parental_education-error"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Lunch Type</label>
+                        <select class="form-control" name="lunch" id="lunch" required>
+                            <option class="placeholder" selected disabled value="">Select Lunch Type</option>
+                            <option value="free/reduced">Free/Reduced</option>
+                            <option value="standard">Standard</option>
+                        </select>
+                        <span class="error-message" id="lunch-error"></span>
+                    </div>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label class="form-label">Test Preparation Course</label>
+                    <select class="form-control" name="test_preparation_course" id="test_prep" required>
+                        <option class="placeholder" selected disabled value="">Select Test Course</option>
+                        <option value="none">None</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <span class="error-message" id="test_prep-error"></span>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Reading Score (0-100)</label>
+                        <input class="form-control" type="number" name="reading_score" id="reading_score"
+                            placeholder="Enter your Reading score" min="0" max="100" required />
+                        <span class="error-message" id="reading_score-error"></span>
+                        <div class="score-indicator" id="reading-indicator"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Writing Score (0-100)</label>
+                        <input class="form-control" type="number" name="writing_score" id="writing_score"
+                            placeholder="Enter your Writing Score" min="0" max="100" required />
+                        <span class="error-message" id="writing_score-error"></span>
+                        <div class="score-indicator" id="writing-indicator"></div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn-reset" type="button" id="resetBtn">Reset Form</button>
+                    <button class="btn-submit" type="submit" id="submitBtn">
+                        <span class="btn-text">Predict Math Score</span>
+                        <span class="btn-loader" id="loader"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Result Container -->
+        <div class="result-container {% if results %}show{% endif %}" id="resultContainer">
+            <h3 class="result-title">
+                {% if error %}
+                    ❌ Error
+                {% else %}
+                    🎯 Predicted Math Score
+                {% endif %}
+            </h3>
+            <div class="result-value {% if error %}error{% endif %}" id="resultValue">
+                {% if results %}
+                    {% if error %}
+                        {{ results }}
+                    {% else %}
+                        {{ results }}/100
+                    {% endif %}
+                {% endif %}
+            </div>
+            {% if results and not error %}
+            <div class="result-details">
+                <div class="score-breakdown">
+                    <div class="score-item">
+                        <span class="score-label">Performance Level:</span>
+                        <span class="score-value" id="performanceLevel">
+                            {% set score = results|float %}
+                            {% if score >= 90 %}Excellent{% elif score >= 80 %}Very Good{% elif score >= 70 %}Good{% elif score >= 60 %}Average{% else %}Needs Improvement{% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
+    
+    <!-- Flask-specific JavaScript variables -->
+    <script>
+        window.flaskData = {
+            prediction: {% if results is defined %}{{ results|tojson }}{% else %}null{% endif %},
+            error: {% if error is defined %}{{ error|tojson }}{% else %}false{% endif %},
+            apiEndpoint: {{ url_for('api_predict')|tojson }}
+        };
+    </script>
+        
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
