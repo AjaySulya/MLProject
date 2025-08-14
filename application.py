@@ -1,12 +1,11 @@
+import os
 # for the flask app
 from flask import Flask, request,render_template,jsonify
 # basic libraries 
 import numpy as np
 import pandas as pd
-# for tht customexception 
-from src.exception import CustomException
-# for the render deployment
 import traceback
+from src.exception import CustomException
 # for the scalling the features
 # from sklearn.preprocessing import StandardScaler
 # for the mapping the data and doing the predictions
@@ -25,31 +24,59 @@ def index():
 @app.route('/predictdata',methods = ['GET','POST'])
 def predict_datapoint():
     if request.method == 'GET':
-        return render_template('home.html') # it's basical a form to fill the input features 
-    
-    else:
-         # here prediction should be done 
-         # here i am calling the CustomData class for the mapping the html input to the back end data frame 
+        return render_template('index.html') # it's basical a form to fill the input features 
+    try:
+
+        # here prediction should be done 
+        # here i am calling the CustomData class for the mapping the html input to the back end data frame 
         data = CustomData(
-            gender = request.form.get('gender'),
-            race_ethnicity= request.form.get('race_ethnicity'),
-            parental_level_of_education= request.form.get('parental_level_of_education'),
-            lunch = request.form.get('lunch'),
-            test_preparation_course= request.form.get('test_preparation_course'),
-            reading_score= request.form.get('reading_score'),
-            writing_score = request.form.get('writing_score')
-        )
-        
+                gender = request.form.get('gender'),
+                race_ethnicity= request.form.get('race_ethnicity'),
+                parental_level_of_education= request.form.get('parental_level_of_education'),
+                lunch = request.form.get('lunch'),
+                test_preparation_course= request.form.get('test_preparation_course'),
+                reading_score= request.form.get('reading_score'),
+                writing_score = request.form.get('writing_score')
+            )
+            # validate the data 
+        if not all(data.values()):
+            return render_template("index.html",
+                                    results = "Please Fill In All  Fields",
+                                    error = True)
+                
+            # check the values are in range or not 
+        if not(0<=data['reading_score'] <= 100) or not(0 <= data['writing_score'] <= 100):
+            return render_template("index.html",
+                                    results = "Score must be Between 0 To 100.",
+                                    error = True)
+                
+            
+            
+                        
         pred_df = data.get_data_as_data_frame()
-        # i can see the how my data look like in data frame 
+            # i can see the how my data look like in data frame 
         print(pred_df)
-        
+            
         predict_pipeline = PredictPipeline()
         results = predict_pipeline.predict(pred_df)
+            # handle both values single and array 
+        if hasattr(results,'__iter__') and not isinstance(results,str):
+                prediction_value = results[0]
+        else:
+                prediction_value = results    
+        return render_template('index.html',results = round(float(prediction_value),1))
         
-        return render_template('home.html',results = results[0])
+    except ValueError as e:
+        return render_template('index.html',
+                                   results= "Invalid Input Values",
+                                   error = True)
+    except Exception as e:
+        print(f"Prediction error {e}")
+        return render_template('index.html',
+                                   results = "Error Occurred during prediction",
+                                   error = True)
     
-
+        
 
 @app.route('/api/predict', methods=['POST'])
 def api_predict():
@@ -120,18 +147,17 @@ def health_check():
             'status': 'unhealthy',
             'error': str(e),
             'pipeline_loaded': False
-        }), 500   
-
-
-
-
-    
-     # for the render error logs 
+        }), 500       
+        
+ # for the render error logs 
 @app.errorhandler(Exception)
 def handle_error(e):
     print("ERROR:", e)
-    traceback.print_exc()  # prints full error to Render logs
+    traceback.print_exc() # prints full error to Render logs
     return jsonify({"error": str(e)}), 500   
+               
 # for testing purpose 
+
 if __name__=="__main__":
-    app.run(host="0.0.0.0")    
+    port = int(os.environ.get("PORT", 5000))  # Render sets PORT automatically
+    app.run(host="0.0.0.0",port = port)        

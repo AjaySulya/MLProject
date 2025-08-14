@@ -1,0 +1,35 @@
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environments
+venv/
+.env/
+
+# Ignore Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore dataset files (if not needed inside container)
+*.csv
+*.tsv
+*.xlsx
+*.parquet
+
+# Ignore logs and temp files
+*.log
+tmp/
+*.tmp
+
+# Ignore OS/system files
+.DS_Store
+Thumbs.db
+
+# Ignore Git files
+.git
+.gitignore
+
+# Ignore local IDE/project settings
+.vscode/
+.idea/
